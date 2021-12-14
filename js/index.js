@@ -11,7 +11,7 @@ $(function () {
 			});
 			window.setTimeout(function () {
 				wx.invoke("agentConfig", {
-					agentid: '1000483', // 必填，企业应用的agentid
+					agentid: '1003137', // 必填，企业应用的agentid
 					corpid: 'ww4d11a39991ebffdc',  // 必填，企业微信的corpid
 					timestamp: 1626832073, // 必填，生成签名的时间戳,int类型, 如 1539100800
 					nonceStr: 'AMQGnmTMzhJetshY', // 必填，生成签名的随机串
