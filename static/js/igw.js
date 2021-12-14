@@ -3,20 +3,6 @@ $(function () {
     // let vConsole = new VConsole();
     $.getScript("https://res.wx.qq.com/open/js/jweixin-1.2.0.js"/*"js/jweixin-1.0.0.js"*/, function () {
         "use strict";
-        wx.ready(function () {
-            console.log("wx.config: ready");
-            window.setTimeout(function () {
-                wx.invoke("agentConfig", {
-                    agentid: "1000252", // 必填，企业应用的agentid
-                    corpid: "ww4d11a39991ebffdc", // 必填，企业微信的corpid
-                    timestamp: 1626832073, // 必填，生成签名的时间戳,int类型, 如 1539100800
-                    nonceStr: "AMQGnmTMzhJetshY", // 必填，生成签名的随机串
-                    signature: "fb9f560a9b4824f7db3525926994010de74ea055",// 必填，签名，见附录5
-                }, function (res) {
-                    console.log("wx.agent config: over", res);
-                });
-            }, 2000);
-        });
         jsApiList = [
             "getZipAppDirectory",
 
@@ -244,6 +230,22 @@ $(function () {
             "ext_Intent_Dial",
             "ext_VoiceRecord_Start", "ext_VoiceRecord_Stop", "ext_VoiceRecord_Pause", "ext_VoiceRecord_Continue", "ext_VoiceRecord_Delete", "ext_VoiceRecord_ShowRecords"
         ];
+        wx.ready(function () {
+            console.log("wx.config: ready");
+            window.setTimeout(function () {
+                wx.invoke("agentConfig", {
+                    agentid: "1000252", // 必填，企业应用的agentid
+                    corpid: "ww4d11a39991ebffdc", // 必填，企业微信的corpid
+                    timestamp: 1626832073, // 必填，生成签名的时间戳,int类型, 如 1539100800
+                    nonceStr: "AMQGnmTMzhJetshY", // 必填，生成签名的随机串
+                    signature: "fb9f560a9b4824f7db3525926994010de74ea055",// 必填，签名，见附录5
+                    jsApiList: jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                }, function (res) {
+                    console.log("wx.agent config: over", res);
+                });
+            }, 2000);
+        });
+
         wx.config({
             beta: true,// 调用wx.invoke形式的接口值时，该值必须为true。
             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
