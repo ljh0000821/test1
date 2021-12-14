@@ -246,7 +246,7 @@ $(function () {
         ];
         wx.config({
             beta: true,// 调用wx.invoke形式的接口值时，该值必须为true。
-            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: "ww4d11a39991ebffdc", // 必填，政务微信的cropID
             timestamp: "1626832073", // 必填，生成签名的时间戳
             nonceStr: "AMQGnmTMzhJetshY", // 必填，生成签名的随机串
