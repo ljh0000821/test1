@@ -1,1 +1,249 @@
-<!DOCTYPE html><html lang=zh-CN><head><meta charset=utf-8><title>移动巡检</title><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><link rel=stylesheet href=//at.alicdn.com/t/font_2388239_l8gdsak1fs.css><script src=static/js/jquery.js></script><script src=static/js/igw.js></script><link rel=stylesheet href=./static/index.f37b29dd.css></head><body><noscript><strong>Please enable JavaScript to continue.</strong></noscript><div id=app></div><script src=./static/js/chunk-vendors.7a876cca.js></script><script src=./static/js/index.159707f0.js></script></body></html>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>文件加解密</title>
+		<script src="js/jquery-2.2.4.min.js"></script>
+        <script src="js/vconsole.min.js"></script>
+		<script src="js/crypto-js.js"></script>
+		<script src="js/secret.js"></script>
+        <style>
+            fieldset{
+                border: 1px solid #dfcbcb;
+                border-radius: 5px;
+            }
+
+            .container{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .container>div{
+                flex: 1 0 45%;
+                margin: 0px 20px;
+            }
+
+            legend{
+                color: #afa690;
+                font-size: 16px;
+                font-weight: 500;
+                padding: 0px 5px;
+            }
+
+            .form-item{
+                margin: 20px 5px;
+            }
+
+            .form-item>span{
+                width: 90px;
+                display: inline-block;
+                text-align: right;
+                margin-right: 8px;
+            }
+
+            .form-item>input[type='text']{
+                height: 28px;
+                width: calc(100% - 120px);
+                border-radius: 5px;
+                border:1px solid #c7cbc3;
+            }
+
+            .button{
+                margin: 20px;
+                text-align: center;
+            }
+
+            .button button{
+                width: 120px;
+                height: 35px;
+                border: 1px solid gainsboro;
+                border-radius: 5px;
+            }
+        </style>
+	</head>
+
+	<body>
+        <div class="container">
+            <div>
+                <fieldset>
+                    <legend>
+                        config参数
+                    </legend>
+                    <div class="form">
+                        <div class="form-item">
+                            <span>域名</span>
+                            <input type="text" class="domain">
+                        </div>
+                        <div class="form-item">
+                            <span>cropId</span>
+                            <input type="text" class="crop-id">
+                        </div>
+                        <div class="form-item">
+                            <span>agentId</span>
+                            <input type="text" class="agent-id">
+                        </div>
+                        <div class="form-item">
+                            <span>网页</span>
+                            <input type="text" class="agent-url">
+                        </div>
+                        <div class="form-item">
+                            <span>secret</span>
+                            <input type="text" class="secret">
+                        </div>
+                        <div class="form-item">
+                            <span>timestamp</span>
+                            <input type="text" class="timestamp" readonly="readonly">
+                        </div>
+                        <div class="form-item">
+                            <span>nonceStr</span>
+                            <input type="text" class="nonce-str" readonly="readonly">
+                        </div>
+                        <div class="form-item">
+                            <span>signature</span>
+                            <input type="text" class="signature" readonly="readonly">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div>
+                <fieldset>
+                    <legend>
+                        agentConfig参数
+                    </legend>
+                    <div class="form">
+                        <div class="form-item">
+                            <span>域名</span>
+                            <input type="text" class="domain">
+                        </div>
+                        <div class="form-item">
+                            <span>cropID</span>
+                            <input type="text" class="crop-id">
+                        </div>
+                        <div class="form-item">
+                            <span>agentId</span>
+                            <input type="text" class="agent-id">
+                        </div>
+                        <div class="form-item">
+                            <span>网页</span>
+                            <input type="text" class="agent-url">
+                        </div>
+                        <div class="form-item">
+                            <span>secret</span>
+                            <input type="text" class="secret">
+                        </div>
+                        <div class="form-item">
+                            <span>timestamp</span>
+                            <input type="text" class="timestamp" readonly="readonly">
+                        </div>
+                        <div class="form-item">
+                            <span>nonceStr</span>
+                            <input type="text" class="nonce-str" readonly="readonly">
+                        </div>
+                        <div class="form-item">
+                            <span>signature</span>
+                            <input type="text" class="signature"  readonly="readonly">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="button">
+            <button>生成</button>
+        </div>
+		<script type="text/javascript">
+            $(function(){
+                $(".nonce-str").val(createNonceStr());
+                $(".timestamp").val(createTimestamp());
+                $(".domain").val("wework.ehome.ren:30443");
+                $(".domain").on("change",function(){
+                    let me=this;
+                    $(".domain").each(function(){
+                        if(this!=me){
+                            $(this).val($(me).val());
+                        }
+                    });
+                });
+                $(".button button").on("click",function(){
+                    $(".form").each(function(index){
+                        if(index==0){
+                            let form={
+                                domain:$.trim($(this).find(".domain").val()),
+                                cropId:$.trim($(this).find(".crop-id").val()),
+                                agentId:$.trim($(this).find(".agent-id").val()),
+                                secret:$.trim($(this).find(".secret").val()),
+                                timestamp:$.trim($(this).find(".timestamp").val()),
+                                nonceStr:$.trim($(this).find(".nonce-str").val()),
+                                agentUrl:$.trim($(this).find(".agent-url").val())
+                            };
+                            let me=this;
+                            $.ajax({
+                                type:"GET",
+                                url:"https://"+form.domain+"/cgi-bin/gettoken?corpid="+form.cropId+"&corpsecret="+form.secret,
+                                success:(result)=>{
+                                    if(result.errcode==0){
+                                        $.ajax({
+                                            type:"GET",
+                                            url:"https://"+form.domain+"/cgi-bin/get_jsapi_ticket?access_token="+result.access_token,
+                                            success:(result)=>{
+                                                if(result.errcode==0){
+                                                    $(me).find(".signature").val(
+                                                        sha1(
+                                                            sortParams({
+                                                                noncestr:form.nonceStr,
+                                                                timestamp:form.timestamp,
+                                                                jsapi_ticket:result.ticket,
+                                                                url:form.agentUrl
+                                                            })
+                                                        )
+                                                    );
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }else if(index==1){
+                            let form={
+                                domain:$.trim($(this).find(".domain").val()),
+                                cropId:$.trim($(this).find(".crop-id").val()),
+                                agentId:$.trim($(this).find(".agent-id").val()),
+                                secret:$.trim($(this).find(".secret").val()),
+                                timestamp:$.trim($(this).find(".timestamp").val()),
+                                nonceStr:$.trim($(this).find(".nonce-str").val()),
+                                agentUrl:$.trim($(this).find(".agent-url").val())
+                            };
+                            let me=this;
+                            $.ajax({
+                                type:"GET",
+                                url:"https://"+form.domain+"/cgi-bin/gettoken?corpid="+form.cropId+"&corpsecret="+form.secret,
+                                success:(result)=>{
+                                    if(result.errcode==0){
+                                        $.ajax({
+                                            type:"GET",
+                                            url:"https://"+form.domain+"/cgi-bin/ticket/get?access_token="+result.access_token+"&type=agent_config",
+                                            success:(result)=>{
+                                                if(result.errcode==0){
+                                                    $(me).find(".signature").val(
+                                                        sha1(
+                                                            sortParams({
+                                                                noncestr:form.nonceStr,
+                                                                timestamp:form.timestamp,
+                                                                jsapi_ticket:result.ticket,
+                                                                url:form.agentUrl
+                                                            })
+                                                        )
+                                                    );
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    })
+                });
+            });
+		</script>
+	</body>
+</html>
