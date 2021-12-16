@@ -275,7 +275,6 @@ $(function () {
     });
 });
 
-
 function createNonceStr(len) {
     let e = len ? len : 16;
     let t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
