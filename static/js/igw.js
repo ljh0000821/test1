@@ -518,6 +518,7 @@ function initJsSDK(callback) {
 }
 function getL() {
     initJsSDK(() => {
+        console.log("开始获取定位1");
         wx.ready(function () {
             console.log("wx.config: ready");
             wx.getLocation({
