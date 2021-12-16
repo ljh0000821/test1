@@ -516,7 +516,8 @@ function initJsSDK(callback) {
         callback();
     }
 }
-function getL() {
+export function getL() {
+    console.log("开始获取定位0");
     initJsSDK(() => {
         console.log("开始获取定位1");
         wx.ready(function () {
