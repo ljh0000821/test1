@@ -1,6 +1,6 @@
 let jsApiList = [];
 $(function () {
-    let vConsole = new VConsole();
+    // let vConsole = new VConsole();
     $.getScript("https://res.wx.qq.com/open/js/jweixin-1.2.0.js"/*"js/jweixin-1.0.0.js"*/, function () {
         "use strict";
         wx.ready(function () {
@@ -253,7 +253,7 @@ $(function () {
             signature: "fb9f560a9b4824f7db3525926994010de74ea055",// 必填，签名，见附录1
             jsApiList: jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         };
-        console.log(configParams,"configParams");
+        console.log(configParams, "configParams");
         wx.config(configParams);
         console.log("wx.config over");
     });
